@@ -41,7 +41,7 @@ function paintNews(item) {
 
   /* Fulfill every tag with content from response */
   title.innerText = item.title;
-  imageAnchor.href = title.href = item.url;
+  imageAnchor.href = titleAnchor.href = item.url;
   author.innerText = `By ${item.author}`;
   image.src = item.urlToImage;
   description.innerText = item.description;
