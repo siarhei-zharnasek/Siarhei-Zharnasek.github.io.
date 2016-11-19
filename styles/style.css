@@ -32,14 +32,13 @@ a:hover {
 .single-container {
   display: inline-block;
   width: 50%;
-  vertical-align: bottom;
   padding-right: 10px;
   box-sizing: border-box;
   vertical-align: top;
   margin-bottom: 30px;
 }
 
-.single-container:nth-child(odd) {
+.single-container:nth-child(even) {
   padding-right: 0;
   padding-left: 10px;
 }
@@ -66,7 +65,7 @@ a:hover {
   margin: 10px 0 5px 0;
 }
 
-.publishedTime {
+.published-time {
   margin-left: 10px;
   color: red;
   opacity: 0.5;

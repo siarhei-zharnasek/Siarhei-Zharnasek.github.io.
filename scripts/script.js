@@ -3,8 +3,8 @@
 let apiKey = '8bcb59eab0ba4037a458aa735a570dd2',
     url = `https://newsapi.org/v1/articles?source=bbc-news&apiKey=${apiKey}`,
     wrapper = document.querySelector('.wrapper'),
-    apiLink = 'https://newsapi.org/',
-    resultsLength;
+    commonContainer = document.createElement('div'),
+    apiLink = 'https://newsapi.org/';
 
 /* Just get data from server and throw it further */
 (function() {
@@ -15,51 +15,37 @@ let apiKey = '8bcb59eab0ba4037a458aa735a570dd2',
 
 /* Process each element from response */
 function parseResponse(data) {
-  resultsLength = data.articles.length;
-  data.articles.forEach(item => paintNews(item));
+  data.articles.forEach(item => fulfillSingleNews(item));
+  addCopyright();
+  showNews();
 }
 
-function paintNews(item) {
+function fulfillSingleNews(item) {
   /* Create necessary tags that will be added in DOM */
-  let singleContainer = document.createElement('div'),
-      titleAnchor = document.createElement('a'),
-      title = document.createElement('h2'),
-      author = document.createElement('span'),
-      imageAnchor = document.createElement('a'),
-      image = document.createElement('img'),
-      description = document.createElement('h3'),
-      publishedTime = document.createElement('span'),
-      copyright = document.createElement('a');
+  let singleContainerTemplate = `<a class="title" href="${item.url}"><h2>${item.title}</h2></a>
+                                  <a class="pic" href="${item.url}"><img src="${item.urlToImage}"/></a>
+                                  <h3 class="description">${item.description}</h3>
+                                  <span class="author">By ${item.author}</span>
+                                  <span class="published-time">${new Date(item.publishedAt).toDateString()}</span>`,
+      singleContainer = document.createElement('div');
 
-  /* Add necessary classes to elements */
   singleContainer.classList.add('single-container');
-  titleAnchor.classList.add('title');
-  author.classList.add('author');
-  imageAnchor.classList.add('pic');
-  description.classList.add('description');
-  publishedTime.classList.add('publishedTime');
+  singleContainer.innerHTML = singleContainerTemplate;
+  commonContainer.append(singleContainer);
+}
 
-  /* Fulfill every tag with content from response */
-  title.innerText = item.title;
-  imageAnchor.href = titleAnchor.href = item.url;
-  author.innerText = `By ${item.author}`;
-  image.src = item.urlToImage;
-  description.innerText = item.description;
-  publishedTime.innerText = new Date(item.publishedAt).toDateString();
+function addCopyright() {
+  let copyright = document.createElement('a');
 
-  /* Append elements in DOM */
-  imageAnchor.append(image);
-  titleAnchor.append(title);
-  singleContainer.append(titleAnchor, imageAnchor, description, author, publishedTime);
-  wrapper.append(singleContainer);
+  copyright.href = apiLink;
+  copyright.classList.add('copyright');
+  copyright.innerHTML = `API used from ${apiLink}`;
+  
+  commonContainer.append(copyright);
+}
 
-  /* Check if all elements from response exist in DOM and then display them slightly */
-  if (wrapper.children.length === resultsLength + 1) {
-    copyright.innerText = `API used from ${apiLink}`;
-    copyright.href = apiLink;
-    copyright.classList.add('copyright');
-    wrapper.append(copyright);
-    wrapper.style.visibility = 'visible';
-    wrapper.style.opacity = 1;
-  }
+function showNews() {
+  wrapper.append(commonContainer);
+  wrapper.style.visibility = 'visible';
+  wrapper.style.opacity = 1;
 }
