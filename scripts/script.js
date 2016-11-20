@@ -1,4 +1,8 @@
 'use strict';
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
+require('babel-polyfill');
+
 
 let apiKey = '8bcb59eab0ba4037a458aa735a570dd2',
     url = `https://newsapi.org/v1/articles?source=bbc-news&apiKey=${apiKey}`,
@@ -8,7 +12,9 @@ let apiKey = '8bcb59eab0ba4037a458aa735a570dd2',
 
 /* Just get data from server and throw it further */
 (function() {
-  fetch(url).then(response => response.json())
+  fetch(url, {
+    mode: 'cors'
+}).then(response => response.json())
     .then(data => parseResponse(data))
     .catch(err => console.log(err));
 })();
@@ -40,7 +46,7 @@ function addCopyright() {
   copyright.href = apiLink;
   copyright.classList.add('copyright');
   copyright.innerHTML = `API used from ${apiLink}`;
-  
+
   commonContainer.append(copyright);
 }
 
