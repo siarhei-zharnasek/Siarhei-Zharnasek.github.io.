@@ -37,7 +37,7 @@ function fulfillSingleNews(item) {
 
   singleContainer.classList.add('single-container');
   singleContainer.innerHTML = singleContainerTemplate;
-  commonContainer.append(singleContainer);
+  commonContainer.appendChild(singleContainer);
 }
 
 function addCopyright() {
@@ -47,11 +47,11 @@ function addCopyright() {
   copyright.classList.add('copyright');
   copyright.innerHTML = `API used from ${apiLink}`;
 
-  commonContainer.append(copyright);
+  commonContainer.appendChild(copyright);
 }
 
 function showNews() {
-  wrapper.append(commonContainer);
+  wrapper.appendChild(commonContainer);
   wrapper.style.visibility = 'visible';
   wrapper.style.opacity = 1;
 }
