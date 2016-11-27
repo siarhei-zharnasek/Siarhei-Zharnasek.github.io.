@@ -15,9 +15,6 @@ a:hover {
 .wrapper {
   width: 95%;
   margin: 0 auto;
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0s, opacity 0.5s linear 0.2s;
 }
 
 .header-text {
