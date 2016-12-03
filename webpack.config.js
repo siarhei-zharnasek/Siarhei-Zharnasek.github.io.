@@ -1,13 +1,14 @@
 const webpack = require('webpack');
 const path = require('path');
-const NODE_ENV = process.env.NODE_ENV || 'development';
-const development = NODE_ENV === 'development';
+const NODE_ENV = process.env.NODE_ENV || 'isDevelopment';
+const isDevelopment = NODE_ENV === 'isDevelopment';
 
 module.exports = {
   entry: "./scripts/script.js",
+  context: __dirname,
   output: {
-    path: path.join(__dirname, "/dist"),
-    publicPath: '/dist/',
+    path: __dirname + "/dist",
+    publicPath: './dist/',
     filename: "bundle.js"
   },
   module: {
@@ -27,8 +28,13 @@ module.exports = {
     inline: true, //do that we no need to recollect bundle
     hot: true //and no need to update page
   },
-  devtool: development ? 'eval' : 'source-map',
-  plugins: [  //plugin for online page update
-    new webpack.HotModuleReplacementPlugin()
+  devtool: isDevelopment ? 'eval' : 'source-map',
+  plugins: isDevelopment ? [new webpack.HotModuleReplacementPlugin()] : [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    })
   ]
 };

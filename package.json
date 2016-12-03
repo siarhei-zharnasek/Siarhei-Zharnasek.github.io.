@@ -4,9 +4,9 @@
   "description": "",
   "main": "scripts/script.js",
   "scripts": {
-    "build": "babel scripts -d dist",
-    "start": "webpack-dev-server --progress --colors --hot --inline --history-api-fallback",
-    "start2": "browserify dist/script.js -o dist/bundle.js"
+    "dev-serve": "webpack-dev-server --progress --colors --hot --inline --history-api-fallback",
+    "build": "webpack",
+    "build-production": "NODE_ENV=production && webpack -p"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
