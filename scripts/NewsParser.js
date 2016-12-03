@@ -1,5 +1,6 @@
 let wrapper = document.querySelector('.wrapper');
 const { url, apiLink } = require('./constants');
+const SingleNewsContainer = require('./SingleNewsContainer');
 
 class NewsParser {
   constructor() {
@@ -8,21 +9,14 @@ class NewsParser {
 
 /* Process each element from response */
   parseResponse(data) {
-    data.articles.forEach(item => this.fulfillSingleNews(item));
+    data.articles.forEach(item => {
+      const SingleNews = new SingleNewsContainer(item);
+      SingleNews.fulfillContainer();
+      const SingleNewsContainerInstance = SingleNews.getContainer();
+      this.commonContainer.appendChild(SingleNewsContainerInstance);
+    });
     this.addCopyright();
     this.showNews();
-  }
-
-  fulfillSingleNews(item) {
-    const singleContainerTemplate = `<a class="title" href="${item.url}"><h2>${item.title}</h2></a>
-                            <a class="pic" href="${item.url}"><img src="${item.urlToImage}"/></a>
-                            <h3 class="description">${item.description}</h3>
-                            <span class="author">By ${item.author}</span>
-                            <span class="published-time">${new Date(item.publishedAt).toDateString()}</span>`;
-    const singleContainer = document.createElement('div');
-    singleContainer.classList.add('single-container');
-    singleContainer.innerHTML = singleContainerTemplate;
-    this.commonContainer.appendChild(singleContainer);
   }
 
   addCopyright() {

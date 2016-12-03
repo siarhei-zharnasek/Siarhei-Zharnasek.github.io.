@@ -7,8 +7,7 @@ document.querySelector('.loader-button').addEventListener('click', (e) => {
     require('babel-polyfill');
     require('../styles/common.css');
 
-    const dataGetService = require('./dataGetService');
-    const NewsParser = require('./NewsParser');
+    const { dataGetService, NewsParser } = require('./newsModules');
 
     let parseNews = new NewsParser();
 
