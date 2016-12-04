@@ -4,12 +4,13 @@ const SingleNewsContainer = require('./SingleNewsContainer');
 
 class NewsParser {
   constructor() {
-    this.commonContainer = document.createElement('div')
+    this.commonContainer = document.createElement('div');
+    this.source = 'NewsParser';
   }
 
 /* Process each element from response */
-  parseResponse(data) {
-    data.articles.forEach(item => {
+  parseResponse(articles) {
+    articles.forEach(item => {
       const SingleNews = new SingleNewsContainer(item);
       SingleNews.fulfillContainer();
       const SingleNewsContainerInstance = SingleNews.getContainer();
@@ -31,6 +32,10 @@ class NewsParser {
     wrapper.appendChild(this.commonContainer);
     wrapper.style.visibility = 'visible';
     wrapper.style.opacity = 1;
+  }
+
+  update(articles) {
+    this.parseResponse(articles);
   }
 }
 

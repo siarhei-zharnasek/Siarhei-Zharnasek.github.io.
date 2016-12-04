@@ -8,7 +8,7 @@ module.exports = {
   context: __dirname,
   output: {
     path: __dirname + "/dist",
-    publicPath: './dist/',
+    publicPath: '/dist/',
     filename: "bundle.js"
   },
   module: {

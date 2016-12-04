@@ -7,12 +7,29 @@ document.querySelector('.loader-button').addEventListener('click', (e) => {
     require('babel-polyfill');
     require('../styles/common.css');
 
-    const { dataGetService, NewsParser } = require('./newsModules');
+    const { NewsParser } = require('./newsModules');
+    const Subject = require('./Subject');
+    const SubjectInstance = new Subject();
 
     let parseNews = new NewsParser();
+    let unsubscribeBtn = document.querySelector('.unsubscribe');
+    let subscribeBtn = document.querySelector('.subscribe');
 
-    dataGetService()
-      .then(data => parseNews.parseResponse(data))
-      .catch(err => console.log(err));
+    SubjectInstance.subscribe(parseNews);
+    unsubscribeBtn.style.visibility = 'visible';
+
+    unsubscribeBtn.addEventListener('click', () => {
+      SubjectInstance.unsubscribe(parseNews);
+      console.log(`${parseNews.source} successfully unsubscribed!`);
+      unsubscribeBtn.style.visibility = 'hidden';
+      subscribeBtn.style.visibility = 'visible';
+    });
+
+    subscribeBtn.addEventListener('click', () => {
+      console.log(`${parseNews.source} successfully subscribed!`);
+      SubjectInstance.subscribe(parseNews);
+      subscribeBtn.style.visibility = 'hidden';
+      unsubscribeBtn.style.visibility = 'visible';
+    });
   });
 });
